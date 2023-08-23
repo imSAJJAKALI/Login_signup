@@ -7,14 +7,14 @@ const jwt = require('jsonwebtoken');
 userRouter.post('/signup', async (req, res) => {
   try {
     const userExists = await UserModel.findOne({ email: req.body.email });
-
+     console.log(userExists)
     if (userExists) {
       return res.status(400).json({ err: 'User already exists' });
     }
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new UserModel({ ...req.body, password: hashPassword });
-
+    console.log(newUser)
     await newUser.save();
     res.status(200).json({ msg: 'User is successfully registered', user: newUser });
   } catch (error) {
